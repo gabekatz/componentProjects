@@ -8,104 +8,107 @@
 </head>
 <body>
   <canvas id='app-canvas' height="720" width="1280" ></canvas>
-  <img id="braum0" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_0.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
-  <img id="braum1" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_1.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
-  <img id="braum2" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_2.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
-  <img id="braum3" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_3.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+  <div id='images'>
+    <img id="braum0" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_0.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+    <img id="braum1" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_1.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+    <img id="braum2" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_2.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+    <img id="braum3" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_3.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+  </div>
   <script>
   const ctx = document.getElementById('app-canvas').getContext("2d");
-  // const ctx2 = document.getElementById('app-canvas').getContext("2d");
-  const Image = function (image) {
-    this.image = image;
-    this.posx = 0; 
-    this.posy = 0;
-  }
-  
-  const braum1 = new Image(document.getElementById('braum0'));
-  const braum2 = new Image(document.getElementById('braum1'));
-  const braum3 = new Image(document.getElementById('braum2'));
-  const braum4 = new Image(document.getElementById('braum3'));
-  let fadeOut = braum1;
-  let fadeIn = braum2;
+  let images = document.getElementById('images').children
+
+  let fadeOut = images[0];
+  let fadeIn = images[1];
   let last = 0;
 
-  // let img1Pos = 0;
-  // let img2Pos = 0;
-  // let img3Pos = 0;
+  let idx = 0;
+  let upOut = false;
+  let leftOut = false;
+  let upIn = true;
+  let leftIn = true;
+
   let opacity1 = 1;
   let opacity2 = 0;
-  let outPos = braum1.pos;
-  let inPos = braum2.pos;
+  let imgOutUp = 0
+  let imgOutLeft = 0;
+  let imgInUp = 0;
+  let imgInLeft = 0;
 
   loop = (img, posx, posy, op) => {
   ctx.fillStyle = "black"
   // console.log(pos)
   ctx.globalAlpha = op
   ctx.fillRect(0,0,1280,720);
-  ctx.drawImage(img,posx,posy)
+  ctx.drawImage(img, posx, posy)
   }
 
   // while(go) {
   setInterval(() => {
-  // img1Pos += 1;
-  // img2Pos -= 1;
-  // img3Pos += 1
-  braum1.posx += 1
-  braum1.posy += 1
-  braum2.posx -= 1
-  braum2.posy -=1
-  braum3.posx += 1
-  braum3.posy -= 1
-  braum4.posx +=1;
-  braum4.posy -=1
-  console.log(ctx);
+  if (upOut) {
+    imgOutUp -= 1;
+  } else {
+    imgOutUp += 1
+  }
+  if (upIn) {
+    imgInUp -= 1
+  } else {
+    imgInUp += 1;
+  }
+
+  if (leftIn) {
+    imgOutLeft -= 1;
+  } else {
+    imgOutLeft += 1;
+  }
+
+  if (leftOut) {
+    imgInLeft -= 1;
+  } else {
+    imgInLeft += 1;
+  }
+  
   opacity1 -= 0.01
   opacity2 += 0.01
   if (opacity1 <= 0) {
-    last++;
-    if(last % 4 === 0) {
-      // braum2.posx = 0;
-      // braum2.posy = 0;
-      fadeOut = braum1;
-      fadeIn = braum2;
-      // outPos = braum2.pos;
-      // inPos = braum3.pos;
-    } else if (last % 4 === 1) {
-      // braum3.posx = 0;
-      // braum3.posy = 0;
-      fadeOut = braum2;
-      fadeIn = braum3;
+    // last++;
+    idx++;
 
-      // outPos = braum3.pos;
-      // inPos = braum1.pos;
-    } else if (last % 4 === 2) {
-      // braum4.posx = 0;
-      // braum4.posy = 0;
-      fadeOut = braum3;
-      fadeIn = braum4;
-      // outPos = braum1.pos;
-      // inPos = braum2.pos;
-    } else if (last % 4 === 3) {
-      // braum1.posx = 0;
-      // braum1.posy = 0;
-      fadeOut = braum4;
-      fadeIn = braum1;
-      
+    
+    fadeOut = images[idx];
+    if (idx === images.length - 1) {
+      idx = -1;
     }
+    fadeIn = images[idx+1];
+
+    upOut = upIn;
+    leftOut = leftIn;
+
+    upIn = upIn ? false : true;
+    // leftIn;
+
+    imgOutUp = imgInUp;
+    imgOutLeft = imgInLeft;
+
+    if (upIn && leftIn) {
+      upIn = false;
+    } else if (!upIn && leftIn) {
+      leftIn = false;
+    } else if (!upIn && !leftIn) {
+      upIn = true;
+    } else {
+      leftIn = true;
+    }
+
     opacity1 = 1;
     opacity2 = 0;
-    fadeIn.posx = 0;
-    fadeIn.posy = 0
+    imgInUp = 0;
+    imgInLeft = 0;
   } 
 
-  loop(fadeOut.image, fadeOut.posx, fadeOut.posy, opacity1);
-  loop(fadeIn.image, fadeIn.posx, fadeIn.posy, opacity2);
-  // console.log('ctx1: ', 'ctx2: ',ctx2)
+  loop(fadeOut, imgOutUp, imgOutLeft, opacity1);
+  loop(fadeIn, imgInUp, imgInLeft, opacity2);
   }, 60);
-
-  // }
-  // console.log(ctx1.a)
-  console.log('not broken')
   </script>
 </body>
 </html>
