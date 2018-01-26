@@ -35,15 +35,14 @@
   let imgInUp = 0;
   let imgInLeft = 0;
 
-  loop = (img, posx, posy, op) => {
+  loop = (img, posx, posy, op, up) => {
+  let inity = up ? -100 : -400
   ctx.fillStyle = "black"
-  // console.log(pos)
   ctx.globalAlpha = op
   ctx.fillRect(0,0,1280,720);
-  ctx.drawImage(img, posx, posy)
+  ctx.drawImage(img, posx, posy, 1280,720,-400,inity,2100,1181.25)
   }
 
-  // while(go) {
   setInterval(() => {
   if (upOut) {
     imgOutUp -= 1;
@@ -92,12 +91,16 @@
 
     if (upIn && leftIn) {
       upIn = false;
+
     } else if (!upIn && leftIn) {
       leftIn = false;
+
     } else if (!upIn && !leftIn) {
       upIn = true;
+
     } else {
       leftIn = true;
+
     }
 
     opacity1 = 1;
@@ -106,8 +109,8 @@
     imgInLeft = 0;
   } 
 
-  loop(fadeOut, imgOutUp, imgOutLeft, opacity1);
-  loop(fadeIn, imgInUp, imgInLeft, opacity2);
+  loop(fadeOut, imgOutUp, imgOutLeft, opacity1, upOut);
+  loop(fadeIn, imgInUp, imgInLeft, opacity2, upIn);
   }, 60);
   </script>
 </body>
