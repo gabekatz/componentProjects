@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <canvas id='app-canvas' height="720" width="1280" ></canvas>
+  <img id="braum0" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_0.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+  <img id="braum1" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_1.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+  <img id="braum2" class="c-summoner-hero__banner" src="https://am-a.akamaihd.net/image?f=http://ddragon.leagueoflegends.com/cdn/img/champion/splash/Braum_2.jpg&amp;crop=1215:717:0:0&amp;resize=1215:717&amp;quality=70" alt="" style="opacity: 0">
+  <script>
+  const ctx = document.getElementById('app-canvas').getContext("2d");
+  // const ctx2 = document.getElementById('app-canvas').getContext("2d");
+  const braum1 = document.getElementById('braum0');
+  const braum2 = document.getElementById('braum1');
+  const braum3 = document.getElementById('braum2');
+  let fadeOut = braum1;
+  let fadeIn = braum2
+  let last = 1;
+
+  let img1Pos = 0;
+  let img2Pos = 0;
+  let img3Pos = 0;
+  let opacity1 = 1;
+  let opacity2 = 0;
+  let inPos = img1Pos;
+  let outPos = img2Pos;
+
+  loop = (img, pos, op) => {
+  ctx.fillStyle = "black"
+  console.log(ctx.p)
+  ctx.globalAlpha = op
+  ctx.fillRect(0,0,1280,720);
+  ctx.drawImage(img,pos,pos)
+  }
+
+  // while(go) {
+  setInterval(() => {
+  img1Pos += 1;
+  img2Pos -= 1;
+  img3Pos += 1
+  console.log(ctx);
+  opacity1 -= 0.01
+  opacity2 += 0.01
+  if (opacity1 <= 0) {
+    if(last % 3 === 0) {
+      fadeOut = braum2;
+      fadeIn = braum3;
+      outPos = img2Pos;
+      inPos = img3Pos;
+      img2Pos = 0
+    } else if (last % 3 === 1) {
+      fadeOut = braum3;
+      fadeIn = braum1;
+      outPos = img3Pos;
+      inPos = img1Pos;
+      img1Pos = 0
+    } else if (last % 3 === 2) {
+      fadeOut = braum1;
+      fadeIn = braum2;
+      outPos = img1Pos;
+      inPos = img2Pos;
+      img3Pos = 0;
+    }
+    last++;
+    opacity1 = 1;
+    opacity2 = 0;
+  } 
+
+  loop(fadeOut, inPos, opacity1);
+  loop(fadeIn, outPos, opacity2);
+  // console.log('ctx1: ', 'ctx2: ',ctx2)
+  }, 60);
+
+  // }
+  console.log(ctx1.a)
+  console.log('not broken')
+  </script>
+</body>
+</html>
